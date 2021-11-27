@@ -29,7 +29,7 @@ Une machine virtuelle (VM) recrée intégralement un serveur (OS, fichiers syst�
 
 Il est donc plus facile à migrer/télécharger et est plus rapide à sauvegarder et à migrer. 
 
-<center>PHOTO du prof</center>
+![VM_CONTE](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/vm_conte.png)
 
 #### Docker <a name="Docker"></a>
 
@@ -37,9 +37,13 @@ Docker est une technologie de virtualisation par conteneurs reposant sur LXC.
 
 Il permet de créer des conteneurs qui vont uniquement contenir des applications avec leurs dépendances. Il nous permet donc d'embarquer des applications afin de les exécuter au sein de l'OS hôte mais de manière isolée.
 
+![docker_engine](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/Dockerengine.PNG)
+
 Il est intéressant de connaître aussi la méthode de fonctionnement de Docker et son architecture.
 Cette dernière repose sur le Docker engine qui va faire tourner les conteneurs et joue le rôle de contrôleur.
 En terme d'architecture, docker repose sur une architecture client/serveur.
+
+![client-server](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/dockerarchi.PNG)
 
 ## Docker - création de son image <a name="partie2"></a>
 
