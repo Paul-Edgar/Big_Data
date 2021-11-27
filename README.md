@@ -9,11 +9,11 @@
 1. [Théorie - Docker](#partie1)
     1. [Hyperviseur / Conteneurisation](#H&C)
     2. [Docker](#Docker)
-
-2. [Docker - création de son image](#partie2)
+2. [Docker - commande de base](#partie2)
+3. [Docker - création de son image](#partie3)
     1. [Docker commit](#Commit)
     2. [Dockerfile](#Dockerfile)
-3. [Docker - publication sur DockerHub](#partie3)
+4. [Docker - publication sur DockerHub](#partie4)
 
 ------------------------
 
@@ -45,7 +45,69 @@ En terme d'architecture, docker repose sur une architecture client/serveur.
 
 ![client-server](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/dockerarchi.PNG)
 
-## Docker - création de son image <a name="partie2"></a>
+## Docker - commande de base  <a name="partie2"></a>
+
+
+    docker run <IMAGE_NAME>
+
+Cette commande permet de créer et de démarrer une nouvelle instance de l'image.
+Si cette dernière n'existe pas sur notre PC, elle sera directement téléchargé depuis le Docker HUB.
+Il peut être intéressant de rechercher sur le HUB l'image souhaité avant. 
+
+- - -
+
+    docker run -d <IMAGE_NAME>
+
+Cette commande permet de démarrer le conteneur que l'on à crée précédemment.
+
+---
+
+    docker ps
+
+Liste tous les conteneurs en cours d'exécution.
+
+    docker ps -a 
+
+Liste tous les conteneurs présent (ceux en cours d'exécution et ceux qui ne sont pas démarré mais qui ont été chargé).
+
+---
+
+    docker stop <NUMERO_ASH>
+
+Stopper les conteneurs en cours d'exécution
+
+    docker rm <NUMERO_ASH>
+
+Supprime les conteneurs, attention les stopper avant. 
+
+---
+
+    docker images 
+
+Liste les images présentes sur notre pc
+
+    docker rmi <REPOSITORY_NAME>
+
+Supprimer une image
+Attention si elle ne veut pas se supprimer on peut forcer avec la commande 
+
+    docker rmi -f <REPOSITORY_NAME>
+
+Ceci peut arriver si des conenteneurs sont encore en marche et qu'ils ont été lancé par l'image. 
+
+---
+
+Dans le cas suivant, si l'on souhaite démarrer un conteneur et que l'on veut rediriger le port de l'applicatio sur notre conteneur vers un port de notre pc.
+
+    docker run -d -p 9999:80 nginx
+
+- 9999 : port sur notre machine
+- 80 : port de l'appli dans le conteneur 
+- nginx : le service lancé
+
+
+
+## Docker - création de son image <a name="partie3"></a>
 
 #### Docker commit <a name="Commit"></a>
 
@@ -86,7 +148,7 @@ Une fois que notre image est bien crée, nous pouvons exécuter cette dernière 
 
 <span style="color: #ED1414 ">Le Dockerfile utilisé lors de cet exercice est présent sur mon DockerHub - *pauledgarvaldes*</span> 
 
-## Docker - publication sur DockerHub <a name="partie3"></a>
+## Docker - publication sur DockerHub <a name="partie4"></a>
 
 Docker Hub est un service fourni par Docker pour les recherches et la publication d'images de conteneurs.
 
