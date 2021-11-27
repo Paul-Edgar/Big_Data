@@ -84,3 +84,31 @@ Une fois que notre image est bien crée, nous pouvons exécuter cette dernière 
 
 ## Docker - publication sur DockerHub <a name="partie3"></a>
 
+Docker Hub est un service fourni par Docker pour les recherches et la publication d'images de conteneurs.
+
+On peut y trouver des images open sources ou des images privées qui sont accessibles depuis des Hub privés. Ceci facilite la diffusion d'image au sein d'une équipe. 
+
+Pour avoir accès au Docker Hub, il faut tout d'abord s'inscrire. Me concernant l'ensemble de mes images se trouveront sur mon Hub **pauledgarvaldes**
+
+Ensuite nous pouvons passer à la création de notre premier repository. 
+
+- Cliquer sur **Repositories** > **Create Repository**
+- Name
+- On renseigne si on veut que notre repository soit privé ou public.
+
+Une fois notre repository crée nous pourrons réaliser les actions suivantes.
+
+Récuperer notre image et lancer le conteneur ou lier une image existante à notre repository.
+
+*Récupérer l'image et executer le conteneur*
+
+    docker build -t <your_username>/<name-repo> .
+
+*Lier une image existante à notre repository*
+
+    docker tag <IMAGE_NAME> <your_username>/<name-repo>
+
+Pour envoyer l'image sur le Hub 
+
+    docker search <IMAGE_NAME>
+
