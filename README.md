@@ -1,6 +1,6 @@
 # Big_Data
 
-### 1er session : 22/11/2021
+### Session : 22/11/2021 & 29/11/2021
 
 ------------------------
 
@@ -54,11 +54,15 @@ Cette commande permet de créer et de démarrer une nouvelle instance de l'image
 Si cette dernière n'existe pas sur notre PC, elle sera directement téléchargé depuis le Docker HUB.
 Il peut être intéressant de rechercher sur le HUB l'image souhaité avant. 
 
-- - -
+---
 
     docker run -d <IMAGE_NAME>
 
 Cette commande permet de démarrer le conteneur que l'on à crée précédemment.
+
+---
+
+    docker run -it <IMAGE_NAME> bash
 
 ---
 
@@ -97,7 +101,8 @@ Ceci peut arriver si des conenteneurs sont encore en marche et qu'ils ont été 
 
 ---
 
-Dans le cas suivant, si l'on souhaite démarrer un conteneur et que l'on veut rediriger le port de l'applicatio sur notre conteneur vers un port de notre pc.
+
+Dans le cas suivant, si l'on souhaite démarrer un conteneur et que l'on veut rediriger le port de l'application sur notre conteneur vers un port de notre pc.
 
     docker run -d -p 9999:80 nginx
 
@@ -105,6 +110,23 @@ Dans le cas suivant, si l'on souhaite démarrer un conteneur et que l'on veut re
 - 80 : port de l'appli dans le conteneur 
 - nginx : le service lancé
 
+---
+
+Exercice : Créer une image ubuntu avec un service MYSQL
+
+On crée l'image 
+
+    docker run --name monserveur -e MYSQL_ROOT_PASSWORD=root -d mysql
+
+On exécute l'image et on se rend sur l'interface MYSQL pour créer/modifier nos base de données
+
+    docker exec -ti monserveur mysql --password
+
+
+Il est intérresant de noter aussi, il est possible d'inspecter un serveur qui tourner et même ses logs 
+
+    docker inspect <NUMERO_ASH>
+    docker logs <NUMERO_ASH>
 
 
 ## Docker - création de son image <a name="partie3"></a>
@@ -126,6 +148,17 @@ Ce dernier doit être composé :
 Dans notre cas nous allons essayer de mettre en place un dockerfile. Ce dernier devra comporter un OS Linux et devra executer un script python lors de son lancement.
 
 **Partie 1 : Création du Dockerfile**
+
+    FROM ubuntu
+    COPY test.py test.py
+    RUN apt-get update
+    RUN apt-get install python -y
+    CMD ["python", "test.py"]
+
+file python
+
+    print("Creation Dockerfile Exercice")
+
 
 **Partie 2 : Construction de l'image**
 
