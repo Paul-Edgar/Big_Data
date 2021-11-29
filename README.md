@@ -21,15 +21,9 @@
 
 **III. Partie 3 : Travail à rendre**
 
-*Enoncé : Rependre le même travail réalisé dans la partie 2*
-
-- créer un projet maven : spring boot 
-- créer une image docker MongoDB
-- créer un Dockerfile sur notre projet spring boot et lier ce dernier avec l'image mongoDB
-
-Au final, lorsque l'on lancera l'image généré à partir de notre Dockerfile alors une base de données va se créer sur MongoDB avec une nouvelle table. 
-
 ------------------------
+
+# Partie 1 : Docker
 
 ## Théorie - Docker <a name="partie1"></a>
 
@@ -225,3 +219,15 @@ Pour envoyer l'image sur le Hub
 
     docker search <IMAGE_NAME>
 
+#II. Partie 2 : MongoDB
+
+
+#III. Partie 3 : Travail à rendre
+
+*Enoncé : Rependre le même travail réalisé dans la partie 2*
+
+- créer un projet maven : spring boot 
+- créer une image docker MongoDB
+- créer un Dockerfile sur notre projet spring boot et lier ce dernier avec l'image mongoDB
+
+Au final, lorsque l'on lancera l'image généré à partir de notre Dockerfile alors une base de données va se créer sur MongoDB avec une nouvelle table. 
