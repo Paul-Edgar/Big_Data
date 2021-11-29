@@ -6,6 +6,7 @@
 
 ### Table de sommaire 
 
+**I. Partie 1 : Docker**
 1. [Théorie - Docker](#partie1)
     1. [Hyperviseur / Conteneurisation](#H&C)
     2. [Docker](#Docker)
@@ -14,6 +15,19 @@
     1. [Docker commit](#Commit)
     2. [Dockerfile](#Dockerfile)
 4. [Docker - publication sur DockerHub](#partie4)
+
+**II. Partie 2 : MongoDB**
+
+
+**III. Partie 3 : Travail à rendre**
+
+*Enoncé : Rependre le même travail réalisé dans la partie 2*
+
+- créer un projet maven : spring boot 
+- créer une image docker MongoDB
+- créer un Dockerfile sur notre projet spring boot et lier ce dernier avec l'image mongoDB
+
+Au final, lorsque l'on lancera l'image généré à partir de notre Dockerfile alors une base de données va se créer sur MongoDB avec une nouvelle table. 
 
 ------------------------
 
