@@ -219,10 +219,10 @@ Pour envoyer l'image sur le Hub
 
     docker search <IMAGE_NAME>
 
-#II. Partie 2 : MongoDB
+# II. Partie 2 : MongoDB
 
 
-#III. Partie 3 : Travail à rendre
+# III. Partie 3 : Travail à rendre
 
 *Enoncé : Rependre le même travail réalisé dans la partie 2*
 
