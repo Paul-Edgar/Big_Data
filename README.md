@@ -242,7 +242,175 @@ Lors de la création de mon projet j'ai tout d'abord installer les instances sui
 
 > Spring Data MongoDB
 
+Une fois le projet crée, j'ai pu commencer à développer la partie microservice.
+
+Pour commencer j'ai crée une classe *Animaux*, cette dernière représentera l'ensemble des champs présent dans ma table Animaux de ma futur base de données. 
+
+![animal-classe](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/class_animaux.PNG)
+
+Une fois que ma classe est crée, je peux passer à la création de mon repository.
+
+**Cette repository va me permettre d'encapsuler les données, de permettre la récupération et la recherche de ces dernières**
+
+![repository](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/repository.PNG)
+
+Après avoir réalisé ces deux étapes nous pouvons déclarer notre repository et mettre en place différentes requêtes qui permettront de visualiser au mieux le bon fonctionnement du projet. 
+
+Pour ça j'ai opté pour deux types de requêtes :
+
+- **GET** afficher le contenu de la table animaux.
+- **POST** enregistrer un nouvel animal. 
+
+![micro](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/micro_post_get.PNG)
+
+Pour la suite du tp j'ai opté pour une solution un peu différente que celle vue en cours. 
+
+Je crée dans le dossier *src/main/resources* un fichier *application.yml*. Ceci permet de renseigner le nom de ma future base de données, son host et le port.
+
+    spring:
+        data:
+          mongodb:
+            database: Animaux
+            host; mongoValdes
+            port: 27017
+
+J'apporte ensuite les modifications au *pom.xml* comme vu en cours.
+
+Enfin je crée à la racine du projet Spring notre Dockerfile
+
+    FROM openjdk:8
+    ADD target/springboot-mongo-docker.jar app.jar
+    ENTRYPOINT ["java","-jar","app.jar"]
+
+Je peux ensuite clean et install le projet
+
+- **Docker**
+
+Dans cette seconde partie nous allons nous tourner vers la création de nos images et la mise en route de nos conteneurs. 
+
+Comme expliqué précédemment, nous aurons besoin d'une image Mongo et de l'image de notre projet spring. 
+
+Pour récupérer la derniere image de Mongodb 
+
+    docker pull mongo:latest
+
+On lance notre conteneur mongo à partir de l'image téléchargée précédemment.
+
+    docker run -d -p 27017:27017 --name mongoValdes mongo:latest
+
+Ensuite on crée l'image de notre projet spring. Pour ça nous devons nous rendre à la racine du projet et exécuter la commande suivante
+
+    docker build -t springboot:1.0 .
+
+Nous pouvons ensuite lancer le conteneur de notre application depuis notre nouvelle image.
+
+**Attention** la commande suivante permettra de lancer le conteneur de notre image spring mais aussi de la lier à notre conteneur mongo déja en route.
+
+    docker run -p 8080:8080 --name springboot-mongodb --link mongoValdes:mongo -d springboot:1.0
+
+Grâce au commande *docker images* et *docker ps* on peut vérifier que nos images on bien été installé et que les conteneurs sont bien lancés
+
+![check](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/check.PNG)
+
+On peut aussi vérifier que Mongo est bien lancé depuis un navigateur avec l'url "*localhost:27017*"
+On peut aussi vérifier l'état de notre microservice depuis les logs.
+
+
+    docker logs springboot-mongodb
+
+
+- **Test du micro-service**
+
+Pour tester le bon fonctionnement de notre micro-service, nous allons commencé par réaliser des requêtes depuis Postman. 
+
+*Requête GET* 
+
+![get](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/GET-Postman.PNG)
+
+*Requête POST*
+
+![post](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/POST-Postman.PNG)
+
+On peut voir que l'ensemble de ces requêtes ont abouti. On peut vérifier le résultat directement depuis notre base de données Mongo.
+
+Pour ce faire nous ouvrons un nouveau terminal et on exécute la commande suivante :
+
+    docker exec -ti mongoValdes bash
+
+Cette commande permet d'ouvrir un terminal de notre conteneur, ici notre conteneur Mongo
+
+Une fois sur l'invite bash, nous pouvons entrer dans mongo à partir de la commande **mongo**
+
+Lorsque nous sommes dans mongo, nous pouvons tout d'abord vérifier si notre base de données a bien été crée.
+
+![check-mongo-2](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/check-in-mongo-2.PNG)
+
+On peut ensuite nous rendre dans notre base données Animaux et dans la collection Animaux.
+
+![check-mongo-3](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/check-in-mongo-3.PNG)
+
+Enfin on peut afficher le contenu de la collection pour vérifier si nos requêtes ont bien aboutie
+
+![check-mongo-4](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/check-in-mongo-4.PNG)
+
+- **Partie supplémentaire : mise en place d'un docker-compose**
+
+Un Docker Compose est un outil qui permet de décrire et de gérer plusieurs conteneurs comme un ensemble de services inter-connectés. 
+
+Nous concernant le but de ce Docker Compose est de lier notre futur conteneur Mongo avec notre projet Spring. 
+
+Pour ce faire, j'ai crée un un fichier *docker-compose.yml*.
+Ce dernier peut se situer n'importe ou, me concernant je l'ai placé dans le répertoire *src/main/resources*
+
+On retrouvera ci-dessous le contenu de mon docker compose. 
+
+    version: "3.8"
+    services:
+        api-database:
+            image: mongo:latest
+            container_name: "api-database"
+            ports: 
+                -27017:27017
+        api: 
+            image: springboot:1.0
+            container_name: "springboot-mongodb"
+            ports:
+                - 8081:8080
+            links:
+                - api-database
+
+A ce moment, une fois que le docker compose est crée nous pouvons ouvrir un invite de commande à l'emplacement du docker file et on lance le docker compose avec la commande suivante :
+
+    docker-compose up
+
+Le point intéressant avec le docker compose c'est qu'il va chercher les images présentes dans le docker compose, si ces dernières ne sont pas sur notre pc il va essayer de les chercher sur le docker hub. 
+
+Une fois que les images sont récupérées il va lancer les conteneurs et faire liens demandés.
+
+![conteneurs-compose](https://github.com/Paul-Edgar/Big_Data/blob/main/photo/conteneurs-compose.PNG)
+
+
+- **Docker HUB**
+
+Comme j'ai pu l'expliquer ci-dessus, le docker compose va chercher les images manquantes sur le Hub. 
+
+Cependant notre image relative à notre microservice n'est pas encore présente sur le hub. 
+
+Pour ce faire nous devons exécuter les commandes suivantes:
+
+    docker login
+    docker tag springboot:1.0 pauledgarvaldes/syoucef-mongoservice
+    docker push pauledgarvaldes/syoucef-mongoservice
+
+Vous pourrez retrouver mon image grâce au lien ci-dessous. 
+
 https://hub.docker.com/repository/docker/pauledgarvaldes/syoucef-mongoservice
 
 
+# Bilan du cours 
 
+Me concernant, ce cours m'a permis d'apprendre énormément de notion sur la conteneurisation et sur Docker.
+
+J'ai pu aussi me familiariser avec l'univers de MongoDB.
+
+Enfin ce cours m'a également permit de mieux appréhender la notion de microservice et de leurs impacts.
