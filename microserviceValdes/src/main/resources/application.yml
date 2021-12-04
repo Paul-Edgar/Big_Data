@@ -1,0 +1,6 @@
+spring:
+  data:
+    mongodb:
+      database: Animaux
+      host: mongoValdes
+      port: 27017

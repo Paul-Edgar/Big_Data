@@ -12,16 +12,17 @@ public class DemoBigdataApplication {
 
     @Autowired
     private ProduitInterface produitInterface;
+
     public static void main(String[] args) {
         SpringApplication.run(DemoBigdataApplication.class, args);
     }
 
     @Bean
-    CommandLineRunner runner(ProduitInterface produitInterface){
+    CommandLineRunner runner(ProduitInterface produitInterface) {
         return args -> {
-          produitInterface.save(new Produit(1,"Tablette", 1200));
-          produitInterface.save(new Produit(2,"Ordinateur", 2000));
-            produitInterface.save(new Produit(3,"Telephone", 800));
+            produitInterface.save(new Produit(1, "Tablette", 1200));
+            produitInterface.save(new Produit(2, "Ordinateur", 2000));
+            produitInterface.save(new Produit(3, "Telephone", 800));
         };
     }
 }
